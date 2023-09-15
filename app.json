@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "shopping-helper",
+    "slug": "shopping-helper",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
