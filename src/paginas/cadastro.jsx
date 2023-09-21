@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
 
-export default function Login() {
+export default function Cadastro({navigation}) {
     return (
         <View>
             <View>
@@ -24,14 +24,20 @@ export default function Login() {
                 <Text> Confirmação de senha: </Text>
                 <TextInput></TextInput>
             </View>
-            <Button title='Acessar'>
-                <Text>Acessar</Text>
-            </Button>
-            <Button title='Registrar conta'>
+            <Button title='Registrar conta'/*</View>onPress={()=>navigation.navigate('Botoes')}*/>
                 <Text>Registro</Text>
             </Button>
-            <Button title='Voltar' >
+            <Button title='Voltar' onPress={()=>navigation.navigate('Login')}>
                 <Text>Voltar</Text>
+            </Button>
+            <Button title='Teste' >
+                <Text>Teste</Text>
+            </Button>
+            <Button title='aparecer' >
+                <Text>aparecer</Text>
+            </Button>
+            <Button title='mostrar' >
+                <Text>mostrar</Text>
             </Button>
         </View>
 
