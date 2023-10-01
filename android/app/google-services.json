@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "539865589572",
+    "firebase_url": "https://shoppinghelper-e092c-default-rtdb.firebaseio.com",
+    "project_id": "shoppinghelper-e092c",
+    "storage_bucket": "shoppinghelper-e092c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:539865589572:android:819a80bb882f767319d911",
+        "android_client_info": {
+          "package_name": "com.shoppinghelper"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB7kosoVV329X7oa90Qc386CvIXdmBpdhk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
