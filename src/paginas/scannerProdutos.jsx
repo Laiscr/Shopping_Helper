@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { StyleSheet, Text, TextInput, View, Image, Alert, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Image, Alert, TouchableOpacity, Dimensions } from 'react-native';
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, onValue } from 'firebase/database';
 import { firebaseConfig } from '../services/firebaseConfig';
+import { BarCodeScanner } from 'expo-barcode-scanner';
 
 initializeApp(firebaseConfig);
 
 export default function ScannerProdutos({ navigation }) {
+  const [toScan, setToScan] = useState(false)
+  const [hasPermission, setHasPermission] = useState(null)
   const [isVisible, setIsVisible] = useState(false);
   const [produtoData, setProdutoData] = useState({
     marca: '',
@@ -19,26 +22,22 @@ export default function ScannerProdutos({ navigation }) {
 
   useEffect(() => {
     // Não carrega as informações automaticamente na inicialização
+    const getBarCodePermission = async () => {
+      const { status } = await BarCodeScanner.requestPermissionsAsync();
+      setHasPermission(status === 'granted');
+    }
+
+    getBarCodePermission();
   }, []);
 
   const toggleVisibility = () => {
+    setToScan(true)
     setIsVisible(!isVisible);
     if (!isVisible) {
       // Carrega as informações apenas quando o botão "Escanear produto" é pressionado
       const database = getDatabase();
       const produtoRef = ref(database, 'Produtos/7896572013905'); 
 
-      onValue(produtoRef, (snapshot) => {
-        const data = snapshot.val();
-        if (data) {
-          setProdutoData({
-            marca: data.marca,
-            unidmedida: data.unidmedida,
-            preco: data.preco.toString(),
-            imagem: data.imagem,
-          });
-        }
-      });
     }
   };
 
@@ -55,6 +54,45 @@ export default function ScannerProdutos({ navigation }) {
     }
   }
 
+  function containsSpecialCharacters(inputString) {
+    // Define a regular expression pattern to match any of the specified characters
+    var pattern = /[.,;/:]/;
+    
+    // Use the test() method to check if the inputString contains any of the characters
+    return pattern.test(inputString);
+  }
+
+  function handleBarCode({ type, data}){
+    console.log('data >>>')
+    console.log(data)
+    console.log('type >>>')
+    if(!containsSpecialCharacters(data)){
+    const database = getDatabase();
+    const produtoRef = ref(database, `Produtos/${data}`); 
+
+    onValue(produtoRef, (snapshot) => {
+      const data = snapshot.val();
+      if(data){
+        setProdutoData({
+          marca: data.marca,
+          unidmedida: data.unidmedida,
+          preco: data.preco.toString(),
+        });
+      }
+      console.log(data)
+    });
+  }
+    setToScan(false)
+  }
+  console.log(hasPermission)
+  console.log(toScan)
+  if(toScan && hasPermission)
+    return(
+  <View style={{flex: 1, display: 'flex'}}>
+    <BarCodeScanner 
+      onBarCodeScanned={handleBarCode}
+      style={{flex: 1, height: Dimensions.get('screen').height, width: Dimensions.get('screen').width}}/>
+  </View>)
   return (
     <View style={estilo.container}>
       {/*{imageUrl && <Image source={{ uri: imagem }} style={{ width: 200, height: 200 }} />}*/}

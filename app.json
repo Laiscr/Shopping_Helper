@@ -1,5 +1,13 @@
 {
   "expo": {
+    "plugins": [
+      [
+        "expo-barcode-scanner",
+        {
+          "cameraPermission": "Permitir que shopping helper acesse a câmera?"
+        }
+      ]
+    ],
     "name": "shopping-helper",
     "slug": "shopping-helper",
     "version": "1.0.0",
