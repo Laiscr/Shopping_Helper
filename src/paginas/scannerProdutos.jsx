@@ -9,6 +9,7 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 initializeApp(firebaseConfig);
 
 export default function ScannerProdutos({ navigation }) {
+  const [produtos, setProdutos] = useState([]);
   const [toScan, setToScan] = useState(false)
   const [hasPermission, setHasPermission] = useState(null)
   const [isVisible, setIsVisible] = useState(false);
@@ -42,6 +43,9 @@ export default function ScannerProdutos({ navigation }) {
   };
 
   function NaoAdicionaProduto() {
+    
+    console.log('produtos ate agora >>>>> ')
+    console.log(produtos)
     if (produtoData.marca.trim() === '' ||
       produtoData.unidmedida.trim() === '' ||
       produtoData.preco.trim() === '') 
@@ -50,7 +54,7 @@ export default function ScannerProdutos({ navigation }) {
     }
     else
     {
-       navigation.navigate('ComprasRealTime', { preco: produtoData.preco }); 
+       navigation.navigate('ComprasRealTime', { preco: produtoData.preco, produtos: produtos }); 
     }
   }
 
@@ -72,20 +76,27 @@ export default function ScannerProdutos({ navigation }) {
 
     onValue(produtoRef, (snapshot) => {
       const data = snapshot.val();
-      if(data){
-        setProdutoData({
-          marca: data.marca,
-          unidmedida: data.unidmedida,
-          preco: data.preco.toString(),
-        });
+      const newProduct = {
+        marca: data.marca,
+        unidmedida: data.unidmedida,
+        preco: data.preco.toString(),
       }
-      console.log(data)
+      if(data){
+        setProdutoData(newProduct);
+        if(produtos.length == 0)
+          setProdutos([newProduct])
+        else 
+          setProdutos([...produtos, newProduct])
+      }else {
+        Alert.alert("Ecaneie novamente", ['Ok'])
+      }
+      setTimeout( () => {
+        
+      }, 1000)
     });
   }
     setToScan(false)
   }
-  console.log(hasPermission)
-  console.log(toScan)
   if(toScan && hasPermission)
     return(
   <View style={{flex: 1, display: 'flex'}}>

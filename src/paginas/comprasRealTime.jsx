@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRoute } from '@react-navigation/native';
-import { StyleSheet, Text, TextInput, View, TouchableOpacity, Alert } from 'react-native';
+import { StyleSheet, Text, TextInput, View, TouchableOpacity, Alert, ScrollView, Dimensions } from 'react-native';
 import { initializeApp } from 'firebase/app';
 import { firebaseConfig } from '../services/firebaseConfig';
 import Entypo from 'react-native-vector-icons/Entypo';
@@ -12,15 +12,21 @@ initializeApp(firebaseConfig);
 export default function ComprasRealTime({ navigation }) {
   const [ValorPosto, setValorPosto] = useState('');
   const [botaoDesabilitado, setBotaoDesabilitado] = useState(false);
-  const [botaoFinalizar, setBotaoFinalizar] = useState (false);
+  const [botaoFinalizar, setBotaoFinalizar] = useState(false);
   const [textInputDesabilitado, setTextInputDesabilitado] = useState(false);
-  const route = useRoute();
+  const route = useRoute()
   const preco = route.params.preco;
+  const [produtos, setProdutos] = useState()
   const [currentDate, setCurrentDate] = useState('');
   const [initialTime, setInitialTime] = useState('');
   const [finalTime, setFinalTime] = useState('');
+  const [selectedItem, setSelectedItem] = useState();
 
   useEffect(() => {
+    setProdutos(route.params.produtos)
+    console.log(route.params)
+    console.log('produtos no useeffect')
+    console.log(produtos)
     const intervalId = setInterval(
       () => {
         let day = new Date().getDate();
@@ -64,24 +70,23 @@ export default function ComprasRealTime({ navigation }) {
     return () => clearInterval(intervalId);
   }, []);
 
- function PararContagem() 
- {
-  setBotaoFinalizar(!botaoFinalizar);
-  if(!botaoFinalizar){
+  function PararContagem() {
+    setBotaoFinalizar(!botaoFinalizar);
+    if (!botaoFinalizar) {
       const finalDate = new Date();
       let finalHours = finalDate.getHours();
       (finalHours < 10) && (finalHours = `0${finalHours}`);
-      
+
       let finalMinutes = finalDate.getMinutes();
       (finalMinutes < 10) && (finalMinutes = `0${finalMinutes}`);
-      
+
       let finalSeconds = finalDate.getSeconds();
       (finalSeconds < 10) && (finalSeconds = `0${finalSeconds}`);
       setFinalTime(`${finalHours}:${finalMinutes}:${finalSeconds}`);
       //navigation.navigate("Historico");
     }
-   
- }
+
+  }
 
   function Desabilitar() {
     if (ValorPosto.trim() === '') {
@@ -93,22 +98,73 @@ export default function ComprasRealTime({ navigation }) {
     }
   }
 
+  const renderItems = () => {
+    return produtos.map((produto) => {
+
+      <View style={estilo.item}>
+        <Text>{produto.marca}</Text>
+        <Text> {produto.unidmedida}</Text>
+        <Text> {produto.preco} </Text>
+      </View>
+    })
+  }
+
+  if (!produtos)
+    return <View></View>
   return (
     <View style={estilo.container}>
       <Text style={estilo.normal_words1}>Data: {currentDate.split(' ')[0]}</Text>
       <Text style={estilo.normal_words1}>Início: {initialTime}</Text>
       <Text style={estilo.normal_words1}>Fim: {botaoFinalizar ? finalTime : '-'}</Text>
 
+      <View style={{ flex: 1, width: '100%',  top: -90}}>
+
+        <View style={estilo.item}>
+          <Text style={estilo.boldText}>Marca</Text>
+          <Text style={estilo.boldText}> Unidade de medida</Text>
+          <Text style={estilo.boldText}> Preço </Text>
+        </View>
+        <ScrollView style={estilo.scrollView}
+          contentContainerStyle={estilo.scrollViewContent}>
+
+          {
+            produtos ?
+              produtos.map((produto) => {
+                return (
+                  <TouchableOpacity onPress={() => {setSelectedItem(produto)}}  style={produto?.marca == selectedItem?.marca ? estilo.selectedItem : estilo.item}>
+                    <Text style={{ width: 100 }}>{produto.marca}</Text>
+                    <Text> {produto.unidmedida}</Text>
+                    <Text> {produto.preco} </Text>
+                  </TouchableOpacity>)
+              }) : <></>
+          }
+
+        </ScrollView>
+      </View>
       <TouchableOpacity title='Escanear produto' style={estilo.scanner} onPress={() => navigation.navigate('ScannerProdutos')}>
         <Text style={estilo.normal_words}>Escanear Produto</Text>
       </TouchableOpacity>
 
       <View style={{ flexDirection: 'row' }}>
-        <TouchableOpacity title='Adicionar'>
+        <TouchableOpacity title='Adicionar' onPress={() => {
+          if(!selectedItem){
+            Alert.alert("Selecione um item para adicionar")
+          }else{
+            setProdutos([...produtos, selectedItem])
+          }
+          
+        }}>
           <Entypo name="circle-with-plus" size={50} color="#FFF" style={estilo.positivo} />
         </TouchableOpacity>
 
-        <TouchableOpacity title='Subtrair'>
+        <TouchableOpacity title='Subtrair' onPress={() => {
+          if(!selectedItem){
+            Alert.alert("Selecione um item para remover")
+          }else{
+            Alert.alert("Ainda não funciona a remoção de produtos - Júlio")
+          }
+          
+        }}>
           <Entypo name="circle-with-minus" size={50} color="#FFF" style={estilo.negativo} />
         </TouchableOpacity>
       </View>
@@ -149,6 +205,31 @@ export default function ComprasRealTime({ navigation }) {
 }
 
 const estilo = StyleSheet.create({
+  boldText: {
+    fontWeight: 'bold'
+  },
+  scrollView: {
+    height: 400, // Set a fixed height of 400 pixels
+  },
+  scrollViewContent: {
+    paddingBottom: 16, // Add padding to the bottom to make room for scrolling
+  },
+  item: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+  selectedItem: {
+
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: 'green',
+    backgroundColor: '#FFA747'
+  },
   container: {
     flex: 1,
     backgroundColor: '#FF4747',
@@ -159,13 +240,13 @@ const estilo = StyleSheet.create({
   positivo: {
     backgroundColor: '#38B000',
     borderRadius: 60,
-    bottom: -220,
+    bottom: 20,
     left: 250,
   },
   negativo: {
     backgroundColor: '#6A040F',
     borderRadius: 60,
-    bottom: -220,
+    bottom: 20,
     left: 270,
   },
   caixa_texto: {
@@ -173,7 +254,7 @@ const estilo = StyleSheet.create({
     borderRadius: 10,
     margin: 5,
     padding: 10,
-    top: 225,
+    top: 5,
     right: -5,
     width: 250,
     color: 'black',
@@ -184,7 +265,7 @@ const estilo = StyleSheet.create({
     borderRadius: 10,
     margin: 5,
     padding: 10,
-    top: 205,
+    top: -10,
     width: 250,
     right: -120,
     marginLeft: -110,
@@ -196,7 +277,7 @@ const estilo = StyleSheet.create({
   positivo1: {
     backgroundColor: '#38B000',
     borderRadius: 60,
-    top: 175,
+    top: 60,
     left: 280,
   },
   positivo1Desabilitado: {
@@ -208,7 +289,7 @@ const estilo = StyleSheet.create({
   TextoNormais: {
     fontWeight: 'bold',
     fontSize: 17,
-    top: 220,
+    top: 0,
     marginLeft: 10,
     textAlignVertical: 'center',
     textTransform: 'capitalize',
@@ -216,7 +297,7 @@ const estilo = StyleSheet.create({
   TextoNormais1: {
     fontWeight: 'bold',
     fontSize: 17,
-    top: 200,
+    top: -30,
     left: 10,
     textAlignVertical: 'center',
     textTransform: 'capitalize',
@@ -229,7 +310,7 @@ const estilo = StyleSheet.create({
     backgroundColor: '#6A040F',
     right: 10,
     marginLeft: 40,
-    bottom: 230,
+    bottom: 400,
     elevation: 2,
     height: 50,
     width: 140,
@@ -249,7 +330,7 @@ const estilo = StyleSheet.create({
     backgroundColor: '#6A040F',
     right: 10,
     marginLeft: 40,
-    bottom: 230,
+    bottom: 400,
     elevation: 2,
     height: 50,
     width: 140,
@@ -276,7 +357,7 @@ const estilo = StyleSheet.create({
     borderRadius: 15,
     backgroundColor: '#000',
     marginLeft: 10,
-    top: 280,
+    top: 40,
     elevation: 2,
     height: 50,
     width: 200,
@@ -296,5 +377,6 @@ const estilo = StyleSheet.create({
     fontWeight: 'bold',
     marginLeft: 10,
     textAlign: 'center',
+
   },
 });
