@@ -299,7 +299,6 @@ const estilo = StyleSheet.create({
     color: 'white',
   },
   scrollView: {
-    height: 400, // Set a fixed height of 400 pixels
   },
   scrollViewContent: {
     paddingBottom: 16, // Add padding to the bottom to make room for scrolling
@@ -317,7 +316,7 @@ const estilo = StyleSheet.create({
     padding: 16,
     borderBottomWidth: 1,
     borderBottomColor: 'green',
-    backgroundColor: '#FFA747',
+    backgroundColor: '#AAAAAA',
   },
   container: {
     flex: 1,
@@ -330,7 +329,7 @@ const estilo = StyleSheet.create({
     backgroundColor: '#38B000',
     borderRadius: 60,
     bottom: 20,
-    left: 250,
+    left: 250, 
   },
   negativo: {
     backgroundColor: '#6A040F',

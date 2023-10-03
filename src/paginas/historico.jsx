@@ -59,8 +59,8 @@ export default function Historico({ navigation }) {
        <TouchableOpacity
        onPress={HistoricoMostrar}
        style={estilo.botaoHistorico}>
-       <Text style={{fontSize:20, fontWeight: 'bold', color: 'white'}}>Histórico</Text>
-       <Text style={{fontSize:20, fontWeight: 'bold', color: 'white'}}>Data:</Text>
+       <Text style={{fontSize:20, fontWeight: 'bold', color: 'white', margin:5}}>Histórico</Text>
+       <Text style={{fontSize:20, fontWeight: 'bold', color: 'white', margin: 5}}>Data:</Text>
        <Text style={{textAlign: 'center', fontSize:20, fontWeight: 'bold', color: 'white'}}>{currentDate.split(' ')[0]}</Text>
        </TouchableOpacity>
 
@@ -75,7 +75,7 @@ export default function Historico({ navigation }) {
        
        <TouchableOpacity style={estilo.botao}
        onPress={() => navigation.navigate('Botoes')}>
-         <Text style={estilo.normal_words}> Voltar </Text>
+         <Text style={estilo.normal_words}> Fechar </Text>
        </TouchableOpacity>
        </View>
     );
@@ -160,11 +160,13 @@ const estilo = StyleSheet.create ({
         right: 100,
         backgroundColor: 'black',
         borderRadius: 10,
+        width: 120,
+        height: 100
     },
     image: {
         width: 340,
         height: 90,
-        top: -240,
+        top: -225,
         left: -10,
     },
     subtitulo: {

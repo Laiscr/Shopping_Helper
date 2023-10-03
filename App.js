@@ -1,14 +1,15 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react'; 
 import { Button, StyleSheet, Text, TextInput, View } from 'react-native';
-import Login from './src/paginas/login';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Login from './src/paginas/login';
 import Cadastro from './src/paginas/cadastro';
 import Botoes from './src/paginas/botoes';
 import ScannerProdutos from './src/paginas/scannerProdutos';
 import ComprasRealTime from './src/paginas/comprasRealTime';
 import Historico from './src/paginas/historico';
+import ListaSimples from './src/paginas/listaSimples';
 //import { TimeProvider } from './TimeContext';
 import { app } from './src/services/firebaseConfig';
 
@@ -23,6 +24,7 @@ export default function App() {
         <Stack.Screen name="ScannerProdutos" component={ScannerProdutos} />
         <Stack.Screen name="ComprasRealTime" component={ComprasRealTime}/>
         <Stack.Screen name="Historico" component={Historico}/>
+        <Stack.Screen name="ListaSimples" component={ListaSimples}/>
       </Stack.Navigator>
       {/*<TimeProvider>
       <ComprasRealTime />
