@@ -8,6 +8,8 @@ import Cadastro from './src/paginas/cadastro';
 import Botoes from './src/paginas/botoes';
 import ScannerProdutos from './src/paginas/scannerProdutos';
 import ComprasRealTime from './src/paginas/comprasRealTime';
+import Historico from './src/paginas/historico';
+//import { TimeProvider } from './TimeContext';
 import { app } from './src/services/firebaseConfig';
 
 const Stack = createNativeStackNavigator();
@@ -19,8 +21,12 @@ export default function App() {
         <Stack.Screen name="Cadastro" component={Cadastro} />
         <Stack.Screen name="Botoes" component={Botoes} />
         <Stack.Screen name="ScannerProdutos" component={ScannerProdutos} />
-        <Stack.Screen name="ComprasRealTime" component={ComprasRealTime} />
+        <Stack.Screen name="ComprasRealTime" component={ComprasRealTime}/>
+        <Stack.Screen name="Historico" component={Historico}/>
       </Stack.Navigator>
+      {/*<TimeProvider>
+      <ComprasRealTime />
+  </TimeProvider>*/}
     </NavigationContainer>
   )
 }

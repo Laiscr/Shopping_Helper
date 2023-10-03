@@ -146,7 +146,7 @@ const estilo = StyleSheet.create({
     backgroundColor: '#FF4747',
     alignItems: 'center',
     justifyContent: 'center',
-  },
+  }, 
   titulo: {
     fontSize: 20,
     color: 'black',
