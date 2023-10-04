@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { useRoute } from '@react-navigation/native';
-import React, { useState } from 'react';
-import {StyleSheet, Text, TextInput, View, TouchableOpacity, Modal, Image, Alert} from 'react-native';
+import React, { useEffect, useState } from 'react';
+import {StyleSheet, Text, TextInput, View, TouchableOpacity, Modal, Image, Alert, ScrollView} from 'react-native';
 import {initializeApp} from 'firebase/app';
 import {getDatabase, ref, onValue} from 'firebase/database'
 import { useNavigation } from '@react-navigation/native';
@@ -13,15 +13,27 @@ import Octicons from 'react-native-vector-icons/Octicons';
 
 export default function Historico({ navigation }) {
     const route = useRoute();
-    const currentDate = route.params.currentDate;
+    const [currentDate, setCurrentDate] = useState();
     const initialTime = route.params.initialTime;
+    const [produtos, setProdutos] = useState();
     const finalTime = route.params.finalTime;
     const totalProdutos = route.params.totalProdutos;
     const ValorPosto = route.params.ValorPosto;
     const ValorPostoExibicao = ValorPosto || '-'; //
     const diferenca = route.params.diferenca;
+    const [loaded, setLoaded] = useState(false);
     const [modalVisivel, setModalVisivel] = useState(false);
     const [historicoApagado, setHistoricoApagado] = useState(false);
+
+   useEffect(() => {
+    console.log("Julio bonitinho ----------------")
+    console.log(route.params.produtos);
+    console.log("Julio miudinho ----------------")
+    setCurrentDate(route.params.currentDate);
+    console.log(route.params);
+    setLoaded(true);
+    setProdutos(route.params.produtos);
+    }, [])
 
     function apagarHistorico() {
         setHistoricoApagado(true);
@@ -31,6 +43,10 @@ export default function Historico({ navigation }) {
         setModalVisivel(!modalVisivel);
     }
     
+   if(!loaded) {
+     return(<Text>Chuchu</Text>)
+   }
+
     return(
        <View style={estilo.container}>
         <Image style={estilo.image} source={require('../assets/Historico.png')} />
@@ -42,6 +58,37 @@ export default function Historico({ navigation }) {
         <Text style={estilo.titulo}> Informações da Compra </Text>
         <Text style={estilo.subtitulo}>Início da compra: {initialTime}</Text>
         <Text style={estilo.subtitulo}>Final da compra: {finalTime}</Text>
+        <View style={{ flex: 1, width: '100%', top: -90 }}>
+        <View style={estilo.item}>
+          <Text style={estilo.boldText1}>Marca</Text>
+          <Text style={estilo.boldText}>Unid. medida</Text>
+          <Text style={estilo.boldText1}>Preço</Text>
+          <Text style={estilo.boldText}>Quant.</Text>
+        </View>
+        <ScrollView
+          style={estilo.scrollView}
+          contentContainerStyle={estilo.scrollViewContent}
+        >
+          {produtos?.map((produto, index) => (
+            <TouchableOpacity
+              key={index}
+            >
+              <Text style={{ width: 120, fontSize: 16, fontWeight: 'bold', color: 'white' }}>
+                {produto.marca}
+              </Text>
+              <Text style={{ width: 120, fontSize: 17, fontWeight: 'bold', color: 'black' }}>
+                {produto.unidmedida}
+              </Text>
+              <Text style={{ width: 80, fontSize: 17, fontWeight: 'bold', color: 'white' }}>
+                {produto.preco}
+              </Text>
+              <Text style={{ width: 20, fontSize: 17, fontWeight: 'bold', color: 'black' }}>
+                {produto.quantidade}
+              </Text>
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
+      </View>
         <Text style={estilo.subtitulo}>Total em Produtos(R$): {totalProdutos}</Text>
         <Text style={estilo.subtitulo}>Valor Inserido(R$): {ValorPostoExibicao}</Text>
         <Text style={estilo.subtitulo}>Troco(R$): {diferenca}</Text>
@@ -61,7 +108,7 @@ export default function Historico({ navigation }) {
        style={estilo.botaoHistorico}>
        <Text style={{fontSize:20, fontWeight: 'bold', color: 'white', margin:5}}>Histórico</Text>
        <Text style={{fontSize:20, fontWeight: 'bold', color: 'white', margin: 5}}>Data:</Text>
-       <Text style={{textAlign: 'center', fontSize:20, fontWeight: 'bold', color: 'white'}}>{currentDate.split(' ')[0]}</Text>
+       <Text style={{textAlign: 'center', fontSize:20, fontWeight: 'bold', color: 'white'}}>{currentDate?.split(' ')[0]}</Text>
        </TouchableOpacity>
 
        <TouchableOpacity title='Lixo'>

@@ -5,6 +5,7 @@ import { getDatabase, ref, onValue } from 'firebase/database';
 import { firebaseConfig } from '../services/firebaseConfig';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { ToastAndroid } from 'react-native';
+import { useRoute } from '@react-navigation/native';
 
 initializeApp(firebaseConfig);
 

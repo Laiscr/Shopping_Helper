@@ -24,6 +24,7 @@ export default function ComprasRealTime({ navigation }) {
   const [diferenca, setDiferenca] = useState(0);
   const [trocoBackgroundColor, setTrocoBackgroundColor] = useState('green');
 
+
   useEffect(() => {
     // Calcula o total dos preços dos produtos
     if (produtos.length > 0) {
@@ -35,6 +36,8 @@ export default function ComprasRealTime({ navigation }) {
   }, [produtos]);
 
   useEffect(() => {
+    console.log(route.params.produtos);
+    console.log("Julio miudinho ----------------")
     setProdutos(route.params.produtos.map(produto => ({
       ...produto,
       quantidade: 1,
@@ -100,7 +103,17 @@ export default function ComprasRealTime({ navigation }) {
 
   function PararContagem() {
     setBotaoFinalizar(!botaoFinalizar);
-    if (!botaoFinalizar) {
+    // Passe as informações de data para a tela Historico
+    navigation.navigate('Historico', {
+      currentDate,
+      totalProdutos,
+      ValorPosto: botaoDesabilitado ? ' ' : ValorPosto,
+      diferenca,
+      initialTime,
+      finalTime,
+      produtos
+    });
+    if (botaoFinalizar) {
       const finalDate = new Date();
       let finalHours = finalDate.getHours();
       (finalHours < 10) && (finalHours = `0${finalHours}`);
@@ -109,6 +122,7 @@ export default function ComprasRealTime({ navigation }) {
       let finalSeconds = finalDate.getSeconds();
       (finalSeconds < 10) && (finalSeconds = `0${finalSeconds}`);
       setFinalTime(`${finalHours}:${finalMinutes}:${finalSeconds}`);
+
     }
   }
 

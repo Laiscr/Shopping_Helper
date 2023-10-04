@@ -9,6 +9,7 @@ export default function Botoes({ navigation }) {
   const [modalListaVisivel, setModalListaVisivel] = useState(false);
   const [botoesVisiveis, setBotoesVisiveis] = useState(false);
   const [modalVisivel, setModalVisivel] = useState(false);
+  
 
   function CriarMostrarListas() {
     setModalListaVisivel(!modalListaVisivel);

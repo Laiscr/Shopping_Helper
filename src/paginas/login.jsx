@@ -117,6 +117,13 @@ export default function Login({ navigation }) {
           </TouchableOpacity>
 
           <TouchableOpacity
+            title='PROJETE'
+            onPress={() => navigation.navigate('Botoes')}
+            style={estilo.projete}>
+            <Text style={estilo.normal_words}>Acesso facilitado para PROJETE</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
             title='Cadastre-se'
             onPress={() => navigation.navigate('Cadastro')}
             style={estilo.botao}>
@@ -129,11 +136,6 @@ export default function Login({ navigation }) {
             onPress={AlertaExplicacao}>
             <Text style={estilo.normal_words}>Continuar sem Logar</Text>
           </TouchableOpacity>
-
-          <Button title='teste'
-          onPress={() => navigation.navigate('Botoes')}>
-            <Text>Teste</Text>
-          </Button>
         </View>
       </View>
     </View>
@@ -185,11 +187,12 @@ const estilo = StyleSheet.create({
   botao: {
     justifyContent: 'center',
     alignContent: 'center',
-    margin: 10,
+    margin: 5,
+    marginLeft: 20,
     borderRadius: 15,
     backgroundColor: '#6A040F',
     right: 10,
-    bottom: -160,
+    bottom: -100,
     elevation: 2,
     height: 50,
     width: 170,
@@ -201,13 +204,32 @@ const estilo = StyleSheet.create({
       width: 1,
     }
   },
+  projete: {
+    justifyContent: 'center',
+    alignContent: 'center',
+    margin: 10,
+    borderRadius: 15,
+    backgroundColor: '#2B9348',
+    left: 25,
+    bottom: -30,
+    elevation: 2,
+    height: 80,
+    width: 300,
+    zIndex: 9,
+    shadowColor: 'black',
+    shadowOpacity: 0.2,
+    shadowOffset: {
+      height: 3,
+      width: 1,
+    }
+  },
   botao2: {
     justifyContent: 'center',
-    margin: 10,
+    margin: 5,
     borderRadius: 15,
     backgroundColor: '#8D99AE',
     left: 260,
-    bottom: -40,
+    bottom: 10,
     elevation: 2,
     height: 100,
     width: 100,
