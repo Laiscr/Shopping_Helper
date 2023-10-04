@@ -49,7 +49,7 @@ export default function Historico({ navigation }) {
 
     return(
        <View style={estilo.container}>
-        <Image style={estilo.image} source={require('../assets/Historico.png')} />
+        <Image style={estilo.image} source={require('../assets/HistoricoBranco.png')} />
         <Modal
         visible={modalVisivel}
         animationType="fade"
@@ -58,28 +58,29 @@ export default function Historico({ navigation }) {
         <Text style={estilo.titulo}> Informações da Compra </Text>
         <Text style={estilo.subtitulo}>Início da compra: {initialTime}</Text>
         <Text style={estilo.subtitulo}>Final da compra: {finalTime}</Text>
-        <View style={{ flex: 1, width: '100%', top: -90 }}>
+        <View style={{ width: '100%', top: 0 }}>
         <View style={estilo.item}>
           <Text style={estilo.boldText1}>Marca</Text>
           <Text style={estilo.boldText}>Unid. medida</Text>
           <Text style={estilo.boldText1}>Preço</Text>
           <Text style={estilo.boldText}>Quant.</Text>
         </View>
+        <View style={{ height: 90 }}>
         <ScrollView
           style={estilo.scrollView}
           contentContainerStyle={estilo.scrollViewContent}
         >
           {produtos?.map((produto, index) => (
             <TouchableOpacity
-              key={index}
+              key={index} style ={estilo.item}
             >
-              <Text style={{ width: 120, fontSize: 16, fontWeight: 'bold', color: 'white' }}>
+              <Text style={{ width: 100, fontSize: 16, fontWeight: 'bold', color: '#669bbc' }}>
                 {produto.marca}
               </Text>
-              <Text style={{ width: 120, fontSize: 17, fontWeight: 'bold', color: 'black' }}>
+              <Text style={{ width: 90, fontSize: 17, fontWeight: 'bold', color: 'black' }}>
                 {produto.unidmedida}
               </Text>
-              <Text style={{ width: 80, fontSize: 17, fontWeight: 'bold', color: 'white' }}>
+              <Text style={{ width: 80, fontSize: 17, fontWeight: 'bold', color: '#669bbc' }}>
                 {produto.preco}
               </Text>
               <Text style={{ width: 20, fontSize: 17, fontWeight: 'bold', color: 'black' }}>
@@ -88,7 +89,9 @@ export default function Historico({ navigation }) {
             </TouchableOpacity>
           ))}
         </ScrollView>
+        </View>
       </View>
+      
         <Text style={estilo.subtitulo}>Total em Produtos(R$): {totalProdutos}</Text>
         <Text style={estilo.subtitulo}>Valor Inserido(R$): {ValorPostoExibicao}</Text>
         <Text style={estilo.subtitulo}>Troco(R$): {diferenca}</Text>
@@ -99,6 +102,7 @@ export default function Historico({ navigation }) {
             style={estilo.botaoAlerta2}>
             <Text style={estilo.normal_words}>Voltar</Text>
           </TouchableOpacity>
+      
         </View>
     </Modal>
        
@@ -112,12 +116,12 @@ export default function Historico({ navigation }) {
        </TouchableOpacity>
 
        <TouchableOpacity title='Lixo'>
-            <Feather name="trash-2" size={50} color="#FFF" style={{top: -220, left: 100}}/>
+            <Feather name="trash-2" size={50} color="#000" style={{top: -200, left: 100}}/>
         </TouchableOpacity>
         </View>
 
         <TouchableOpacity title='Reportar'>
-            <Octicons name="report" size={50} color="#FFF" style={{top: 250, left: 140}}/>
+            <Octicons name="report" size={50} color="#000" style={{top: 250, left: 150}}/>
         </TouchableOpacity>
        
        <TouchableOpacity style={estilo.botao}
@@ -131,13 +135,20 @@ export default function Historico({ navigation }) {
 const estilo = StyleSheet.create ({
     container: {
         flex: 1,
-        backgroundColor: '#FF4747',
+        backgroundColor: '#FDF0D5',
         alignItems: 'center',
         justifyContent: 'center',
     },
+    item: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      backgroundColor: '#fbc3bc',
+      borderBottomWidth: 1,
+      borderBottomColor: '#ccc',
+    },
     modal: {
         width: '80%',
-        height: 300,
+        height: 350,
         borderRadius: 25,
         backgroundColor: 'white',
         marginLeft: 'auto',
@@ -147,6 +158,16 @@ const estilo = StyleSheet.create ({
         borderColor: '#641220',
         borderWidth: 1,
     
+    },
+    boldText: {
+      fontWeight: 'bold',
+      fontSize: 17,
+      color:'black',
+    },
+    boldText1: {
+      fontWeight: 'bold',
+      fontSize: 17,
+      color: '#669bbc',
     },
     titulo: {
         fontSize: 20,
@@ -163,7 +184,7 @@ const estilo = StyleSheet.create ({
         borderRadius: 15,
         backgroundColor: '#E01E37',
         left: 175,
-        bottom: -60,
+        bottom: 45,
         elevation: 2,
         height: 50,
         width: 100,
@@ -203,8 +224,8 @@ const estilo = StyleSheet.create ({
         }
     },
     botaoHistorico: {
-        top: -220, 
-        right: 100,
+        top: -200, 
+        right: 90,
         backgroundColor: 'black',
         borderRadius: 10,
         width: 120,
@@ -213,7 +234,7 @@ const estilo = StyleSheet.create ({
     image: {
         width: 340,
         height: 90,
-        top: -225,
+        top: -210,
         left: -10,
     },
     subtitulo: {

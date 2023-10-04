@@ -174,9 +174,10 @@ export default function ComprasRealTime({ navigation }) {
           <Text style={estilo.boldText1}>Preço</Text>
           <Text style={estilo.boldText}>Quant.</Text>
         </View>
+       <View style={{ height: 180 }}> 
         <ScrollView
           style={estilo.scrollView}
-          contentContainerStyle={estilo.scrollViewContent}
+          contentContainerStyle={{ paddingBottom: 100 }}
         >
           {produtos.map((produto, index) => (
             <TouchableOpacity
@@ -188,13 +189,13 @@ export default function ComprasRealTime({ navigation }) {
                   : estilo.item
               }
             >
-              <Text style={{ width: 120, fontSize: 16, fontWeight: 'bold', color: 'white' }}>
+              <Text style={{ width: 120, fontSize: 16, fontWeight: 'bold', color: '#669bbc' }}>
                 {produto.marca}
               </Text>
               <Text style={{ width: 120, fontSize: 17, fontWeight: 'bold', color: 'black' }}>
                 {produto.unidmedida}
               </Text>
-              <Text style={{ width: 80, fontSize: 17, fontWeight: 'bold', color: 'white' }}>
+              <Text style={{ width: 80, fontSize: 17, fontWeight: 'bold', color: '#669bbc' }}>
                 {produto.preco}
               </Text>
               <Text style={{ width: 20, fontSize: 17, fontWeight: 'bold', color: 'black' }}>
@@ -215,6 +216,7 @@ export default function ComprasRealTime({ navigation }) {
             </TouchableOpacity>
           ))}
         </ScrollView>
+       </View>
       </View>
       <TouchableOpacity
         title='Escanear produto'
@@ -274,7 +276,15 @@ export default function ComprasRealTime({ navigation }) {
         value={totalProdutos}
       />
 
-      <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 20, marginLeft: 10, top: -15, backgroundColor: trocoBackgroundColor }}>Troco(R$): {diferenca}</Text>
+      <Text style={{ color: 'white', 
+      fontWeight: 'bold', 
+      fontSize: 20, 
+      marginLeft: 10, 
+      top: -15, 
+      backgroundColor: trocoBackgroundColor, 
+      borderRadius: 5,
+      width: 120, 
+      textAlign: 'center' }}>Troco(R$): {diferenca}</Text>
 
       <View style={{ flexDirection: 'row' }}>
         <TouchableOpacity title='Lista' style={estilo.botao}
@@ -302,6 +312,10 @@ export default function ComprasRealTime({ navigation }) {
 
 
 const estilo = StyleSheet.create({
+  scrollView: {
+    //flexGrow: 1,
+    maxHeight: '100%', // Ajuste o valor conforme necessário
+  },
   boldText: {
     fontWeight: 'bold',
     fontSize: 20,
@@ -310,12 +324,10 @@ const estilo = StyleSheet.create({
   boldText1: {
     fontWeight: 'bold',
     fontSize: 20,
-    color: 'white',
-  },
-  scrollView: {
+    color: '#669bbc',
   },
   scrollViewContent: {
-    paddingBottom: 16, // Add padding to the bottom to make room for scrolling
+    paddingBottom: 300, 
   },
   item: {
     flexDirection: 'row',
@@ -330,11 +342,11 @@ const estilo = StyleSheet.create({
     padding: 16,
     borderBottomWidth: 1,
     borderBottomColor: 'green',
-    backgroundColor: '#AAAAAA',
+    backgroundColor: '#b23a48',
   },
   container: {
     flex: 1,
-    backgroundColor: '#FF4747',
+    backgroundColor: '#FDF0D5',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
     paddingTop: 120,
@@ -354,8 +366,10 @@ const estilo = StyleSheet.create({
   caixa_texto: {
     backgroundColor: 'white',
     borderRadius: 10,
+    borderWidth: 0.5,
     margin: 5,
     padding: 10,
+    borderColor: 'gray',
     top: 5,
     right: -5,
     width: 250,
@@ -363,15 +377,16 @@ const estilo = StyleSheet.create({
     fontSize: 17,
   },
   caixa_texto1: {
-    backgroundColor: 'pink',
+    backgroundColor: '#F5F3F4',
     borderRadius: 10,
+    color: 'black',
     margin: 5,
     padding: 10,
     top: -25,
     width: 250,
     right: -120,
     marginLeft: -110,
-    color: 'black',
+    borderColor: 'gray',
     fontSize: 17,
     borderWidth: 0.5,
     borderRadius: 10,
@@ -473,7 +488,7 @@ const estilo = StyleSheet.create({
   },
   normal_words1: {
     fontSize: 20,
-    color: 'white',
+    color: '#DA1E37',
     top: -100,
     fontStyle: 'italic',
     fontWeight: 'bold',

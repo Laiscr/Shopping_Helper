@@ -80,9 +80,14 @@ export default function Login({ navigation }) {
       </Modal>
 
       <View>
-        <Image style={estilo.image} source={require('../assets/ImagemCor.png')} />
+        <Image style={estilo.image} source={require('../assets/LoginBranco.png')} />
 
-        <Text style={estilo.normal_words}> Login </Text>
+        <Text style={{fontSize: 20,
+          color: '#780000',
+          alignContent: 'center',
+          justifyContent: 'center',
+          fontStyle: ('italic'),
+          textAlign: 'center',}}> Login </Text>
         <View>
           <View>
             <Text style={estilo.loginCadastro}> Email: </Text>
@@ -145,7 +150,7 @@ export default function Login({ navigation }) {
 const estilo = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FF4747',
+    backgroundColor: '#FDF0D5',
     alignItems: 'center',
     justifyContent: 'center',
   }, 
@@ -179,10 +184,11 @@ const estilo = StyleSheet.create({
     borderRadius: 10,
     margin: 5,
     padding: 10,
-    color: 'black',
     fontSize: 15,
     alignContent: 'center',
     justifyContent: 'center',
+    borderColor: 'gray',
+    borderWidth: 0.5,
   },
   botao: {
     justifyContent: 'center',
@@ -244,7 +250,7 @@ const estilo = StyleSheet.create({
   botao3: {
     justifyContent: 'center',
     margin: 10,
-    borderRadius: 15,
+    borderRadius: 10,
     backgroundColor: '#6A040F',
     center: 'auto',
     bottom: -10,
@@ -261,7 +267,7 @@ const estilo = StyleSheet.create({
   },
   image: {
     width: 370,
-    height: 200,
+    height: 210,
     alignContent: 'center',
   },
   modal: {

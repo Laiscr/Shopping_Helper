@@ -27,10 +27,10 @@ export default function Botoes({ navigation }) {
   return (
     <View style={estilo.container}>
         {/*Modal do botão de escanear produtos*/}
-        <EvilIcons name="user" size={90} color="#FFF" style={estilo.usario}/>
+        <EvilIcons name="user" size={90} color="#000" style={estilo.usario}/>
 
         <Text style={estilo.normal_words1}>
-            Olá, 
+            Olá! Vamos às compras?
         </Text>
         <View style={estilo.separator} />
         <Modal
@@ -160,7 +160,7 @@ export default function Botoes({ navigation }) {
 const estilo = StyleSheet.create({
   container: {
    flex: 1,
-   backgroundColor: '#FF4747',
+   backgroundColor: '#FDF0D5',
    alignItems: 'center',
    justifyContent: 'flex-start',
   },
@@ -272,8 +272,9 @@ const estilo = StyleSheet.create({
     width: 350,
     height: 80,
     alignContent: 'center',
+    justifyContent: 'center',
     padding: 0,
-    marginRight: 25
+    marginRight: -5
   },
   titulo: {
     fontSize: 20,
@@ -305,20 +306,20 @@ const estilo = StyleSheet.create({
    },
    normal_words1: {
     margin: 5,
-    color: 'white',
+    color: '#669bbc',
     fontWeight: 'bold',
     textAlign: 'left',
     position: 'relative',
-    top: -45,
+    top: -50,
     fontSize: 20,
-    left: -80,
+    left: 65,
     height: 25,
-    width: 40,
+    width: 300,
    },
    separator: {
     width: '90%', // Largura da linha
     borderBottomColor: 'black', // Cor da linha
     borderBottomWidth: 1.5, // Espessura da linha
-    marginVertical: -15, // Espaçamento vertical entre a linha e os elementos
+    marginVertical: -20, // Espaçamento vertical entre a linha e os elementos
   },
 });

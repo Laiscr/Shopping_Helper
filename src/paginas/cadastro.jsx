@@ -24,7 +24,7 @@ export default function Cadastro({ navigation }) {
 
   return (
     <View style={estilo.container}>
-      <Image style={estilo.image} source={require('../assets/Cadastro.png')} />
+      <Image style={estilo.image} source={require('../assets/CadastroBranco.png')} />
 
       <View>
         <Text style={estilo.normal_words}> Cadastre-se </Text>
@@ -77,7 +77,7 @@ export default function Cadastro({ navigation }) {
         style={estilo.botao}
         onPress={handlePress}
       >
-        <Text style={estilo.normal_words}>
+        <Text style={estilo.normal_words1}>
           Registrar Conta
         </Text>
       </TouchableOpacity>
@@ -87,7 +87,7 @@ export default function Cadastro({ navigation }) {
         onPress={() => navigation.navigate('Login')}
         style={estilo.botao}
       >
-        <Text style={estilo.normal_words}>
+        <Text style={estilo.normal_words1}>
           Voltar
         </Text>
       </TouchableOpacity>
@@ -100,7 +100,7 @@ const estilo = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: '#FF4747',
+    backgroundColor: '#FDF0D5',
     padding: 10,
   },
   subtitulo: {
@@ -112,6 +112,14 @@ const estilo = StyleSheet.create({
     justifyContent: 'center',
   },
   normal_words: {
+    fontSize: 20,
+    color: '#780000',
+    alignContent: 'center',
+    justifyContent: 'center',
+    fontStyle: 'italic',
+    textAlign: 'center',
+  },
+  normal_words1: {
     fontSize: 20,
     color: 'white',
     alignContent: 'center',
@@ -130,6 +138,8 @@ const estilo = StyleSheet.create({
     fontSize: 15,
     alignContent: 'center',
     justifyContent: 'center',
+    borderColor: 'gray',
+    borderWidth: 0.5,
   },
   botao: {
     justifyContent: 'center',

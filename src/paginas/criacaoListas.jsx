@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { StyleSheet, Text, TextInput, View, FlatList, TouchableOpacity, Button } from 'react-native';
+import { StyleSheet, Text, TextInput, View, FlatList, TouchableOpacity } from 'react-native';
 
 export default function CriacaoListas({ navigation }) {
   const [inputText, setInputText] = useState(''); // Estado para armazenar o texto do input
@@ -66,12 +66,14 @@ export default function CriacaoListas({ navigation }) {
           <Text style={estilo.tituloTexto}>{titulo}</Text>
         )}
         {!tituloConfirmado && (
-          <Button title="Confirmar Título" onPress={confirmarTitulo} />
+          <TouchableOpacity onPress={confirmarTitulo} style={estilo.button}>
+            <Text style={estilo.buttonText}>Confirmar Título</Text>
+          </TouchableOpacity>
         )}
       </View>
       <View style={estilo.checklist}>
         {/* Seção da Checklist */}
-        <Text style={estilo.titulo}>Checklist</Text>
+        <Text style={estilo.titulo}>Checklist de Produtos</Text>
         <TextInput
           style={estilo.input}
           placeholder="Adicionar item..."
@@ -103,14 +105,16 @@ export default function CriacaoListas({ navigation }) {
         {/* Seção das Anotações */}
         <Text style={estilo.titulo}>Anotações adicionais</Text>
         <TextInput
-          style={estilo.input}
+          style={estilo.caixa_texto}
           placeholder="Faça anotações aqui..."
           multiline={true}
           numberOfLines={10}
           value={anotacoes}
           onChangeText={(text) => setAnotacoes(text)}
         />
-        <Button title="Confirmar Anotações" onPress={confirmarAnotacoes} />
+        <TouchableOpacity onPress={confirmarAnotacoes} style={estilo.button}>
+          <Text style={estilo.buttonText}>Confirmar Anotações</Text>
+        </TouchableOpacity>
         {/* Valor inserido */}
         <View style={estilo.valorContainer}>
           <TextInput
@@ -126,14 +130,14 @@ export default function CriacaoListas({ navigation }) {
             editable={!valorConfirmado} // Desabilita a edição após a confirmação
           />
           {!valorConfirmado && (
-            <TouchableOpacity onPress={confirmarValor} style={estilo.confirmarButton}>
-              <Text style={estilo.confirmarButtonText}>Confirmar Valor</Text>
+            <TouchableOpacity onPress={confirmarValor} style={estilo.button}>
+              <Text style={estilo.buttonText}>Confirmar Valor</Text>
             </TouchableOpacity>
           )}
         </View>
         {/* Botão para ir para a tela ComprasRealTime */}
-        <TouchableOpacity onPress={() => navigation.navigate('ScannerProdutos')} style={estilo.irParaComprasButton}>
-          <Text style={estilo.irParaComprasButtonText}>Começar Compras</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('ScannerProdutos')} style={estilo.button}>
+          <Text style={estilo.buttonText}>Começar Compras</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -144,7 +148,7 @@ const estilo = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: '#fff',
+    backgroundColor: '#FDF0D5',
   },
   tituloContainer: {
     flexDirection: 'row',
@@ -156,9 +160,15 @@ const estilo = StyleSheet.create({
     flex: 1,
     height: 40,
     borderColor: 'gray',
-    borderWidth: 1,
-    borderRadius: 5,
+    borderWidth: 0.5,
     paddingHorizontal: 10,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    fontSize: 15,
+    height: 40,
+    top: -10,
+    alignContent: 'center',
+    justifyContent: 'center',
   },
   tituloTexto: {
     flex: 1,
@@ -183,10 +193,14 @@ const estilo = StyleSheet.create({
   input: {
     height: 40,
     borderColor: 'gray',
-    borderWidth: 1,
+    borderWidth: 0.5,
     borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 16,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    fontSize: 15,
+    top: -5,
   },
   item: {
     flexDirection: 'row',
@@ -208,24 +222,46 @@ const estilo = StyleSheet.create({
     flex: 1,
   },
   valorConfirmado: {
-    backgroundColor: 'lightgray', // Estilize a cor conforme necessário
+    backgroundColor: '#76C893', // Estilize a cor conforme necessário
   },
-  confirmarButton: {
-    backgroundColor: 'lightblue',
-    padding: 10,
-    borderRadius: 5,
-    marginLeft: 10,
+  button: {
+    borderRadius: 10,
+    height: 40,
+    top: -10,
+    margin: 5,
+    padding: 9,
+    backgroundColor: '#6A040F',
+    alignContent: 'center',
+    elevation: 2,
+    height: 40,
+    width: 170,
+    zIndex: 9,
+    shadowColor: 'black',
+    shadowOpacity: 0.2,
+    shadowOffset: {
+      height: 3,
+      width: 1,
+    },
   },
-  confirmarButtonText: {
+  buttonText: {
     textAlign: 'center',
+    color: 'white',
+    fontSize: 17,
+    fontStyle: ('italic'),
   },
-  irParaComprasButton: {
-    backgroundColor: 'lightblue',
+  caixa_texto: {
+    height: 90,
+    top: -10,
+    margin: 5,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    fontSize: 15,
+    margin: 5,
     padding: 10,
-    borderRadius: 5,
-    marginTop: 16,
-  },
-  irParaComprasButtonText: {
-    textAlign: 'center',
+    color: 'black',
+    alignContent: 'center',
+    justifyContent: 'center',
+    borderColor: 'gray',
+    borderWidth: 0.5,
   },
 });
