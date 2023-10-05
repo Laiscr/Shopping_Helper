@@ -10,8 +10,6 @@ initializeApp(firebaseConfig);
 
 export default function ComprasRealTime({ navigation }) {
   const [ValorPosto, setValorPosto] = useState('');
-  const [botaoDesabilitado, setBotaoDesabilitado] = useState(false);
-  const [botaoFinalizar, setBotaoFinalizar] = useState(false);
   const [textInputDesabilitado, setTextInputDesabilitado] = useState(false);
   const route = useRoute();
   const preco = parseFloat(route.params.preco);
@@ -23,7 +21,7 @@ export default function ComprasRealTime({ navigation }) {
   const [totalProdutos, setTotalProdutos] = useState(0);
   const [diferenca, setDiferenca] = useState(0);
   const [trocoBackgroundColor, setTrocoBackgroundColor] = useState('green');
-
+  const [botaoFinalizar, setBotaoFinalizar] = useState(false); // Adicionei o estado do botão Finalizar
 
   useEffect(() => {
     // Calcula o total dos preços dos produtos
@@ -95,34 +93,36 @@ export default function ComprasRealTime({ navigation }) {
   function verificaDiferenca(diferenca) {
     if (parseFloat(diferenca) < 0) {
       Alert.alert(
-        'Aviso',
+        'Passou do limite estipulado',
         'Você ultrapassou o valor que possuía. Sua operação agora é para saber quanto falta para pagar.'
       );
     }
   }
 
   function PararContagem() {
-    setBotaoFinalizar(!botaoFinalizar);
     // Passe as informações de data para a tela Historico
+    const finalDate = new Date();
+    let finalHours = finalDate.getHours();
+    (finalHours < 10) && (finalHours = `0${finalHours}`);
+    let finalMinutes = finalDate.getMinutes();
+    (finalMinutes < 10) && (finalMinutes = `0${finalMinutes}`);
+    let finalSeconds = finalDate.getSeconds();
+    (finalSeconds < 10) && (finalSeconds = `0${finalSeconds}`);
+    const finalTime = `${finalHours}:${finalMinutes}:${finalSeconds}`;
+
     navigation.navigate('Historico', {
       currentDate,
       totalProdutos,
-      ValorPosto: botaoDesabilitado ? ' ' : ValorPosto,
+      ValorPosto,
       diferenca,
       initialTime,
-      finalTime,
-      produtos
+      finalTime, // Passando a hora final como parâmetro
+      produtos,
     });
-    if (botaoFinalizar) {
-      const finalDate = new Date();
-      let finalHours = finalDate.getHours();
-      (finalHours < 10) && (finalHours = `0${finalHours}`);
-      let finalMinutes = finalDate.getMinutes();
-      (finalMinutes < 10) && (finalMinutes = `0${finalMinutes}`);
-      let finalSeconds = finalDate.getSeconds();
-      (finalSeconds < 10) && (finalSeconds = `0${finalSeconds}`);
-      setFinalTime(`${finalHours}:${finalMinutes}:${finalSeconds}`);
 
+    if (!botaoFinalizar) {
+      setFinalTime(finalTime);
+      setBotaoFinalizar(true);
     }
   }
 
@@ -130,7 +130,6 @@ export default function ComprasRealTime({ navigation }) {
     if (ValorPosto.trim() === '') {
       Alert.alert('Insira um Valor', 'É necessário inserir um valor antes de confirmá-lo.');
     } else {
-      setBotaoDesabilitado(true);
       setTextInputDesabilitado(true);
       verificaDiferenca(diferenca);
       Alert.alert('Valor Confirmado', 'O valor foi confirmado e não pode mais ser alterado.');
@@ -165,7 +164,7 @@ export default function ComprasRealTime({ navigation }) {
     <View style={estilo.container}>
       <Text style={estilo.normal_words1}>Data: {currentDate.split(' ')[0]}</Text>
       <Text style={estilo.normal_words1}>Início: {initialTime}</Text>
-      <Text style={estilo.normal_words1}>Fim: {botaoFinalizar ? finalTime : '-'}</Text>
+      <Text style={estilo.normal_words1}>Fim: {finalTime || '-'}</Text>
 
       <View style={{ flex: 1, width: '100%', top: -90 }}>
         <View style={estilo.item}>
@@ -174,49 +173,49 @@ export default function ComprasRealTime({ navigation }) {
           <Text style={estilo.boldText1}>Preço</Text>
           <Text style={estilo.boldText}>Quant.</Text>
         </View>
-       <View style={{ height: 180 }}> 
-        <ScrollView
-          style={estilo.scrollView}
-          contentContainerStyle={{ paddingBottom: 100 }}
-        >
-          {produtos.map((produto, index) => (
-            <TouchableOpacity
-              key={index}
-              onPress={() => setSelectedItem(produto)}
-              style={
-                produto?.marca == selectedItem?.marca
-                  ? estilo.selectedItem
-                  : estilo.item
-              }
-            >
-              <Text style={{ width: 120, fontSize: 16, fontWeight: 'bold', color: '#669bbc' }}>
-                {produto.marca}
-              </Text>
-              <Text style={{ width: 120, fontSize: 17, fontWeight: 'bold', color: 'black' }}>
-                {produto.unidmedida}
-              </Text>
-              <Text style={{ width: 80, fontSize: 17, fontWeight: 'bold', color: '#669bbc' }}>
-                {produto.preco}
-              </Text>
-              <Text style={{ width: 20, fontSize: 17, fontWeight: 'bold', color: 'black' }}>
-                {produto.quantidade}
-              </Text>
+        <View style={{ height: 180 }}>
+          <ScrollView
+            style={estilo.scrollView}
+            contentContainerStyle={{ paddingBottom: 100 }}
+          >
+            {produtos.map((produto, index) => (
               <TouchableOpacity
-                title='Adicionar'
-                onPress={() => adicionarProduto(produto)}
+                key={index}
+                onPress={() => setSelectedItem(produto)}
+                style={
+                  produto?.marca == selectedItem?.marca
+                    ? estilo.selectedItem
+                    : estilo.item
+                }
               >
-                <Entypo name="circle-with-plus" size={30} color="#FFF" style={estilo.positivo} />
+                <Text style={{ width: 120, fontSize: 16, fontWeight: 'bold', color: '#669bbc' }}>
+                  {produto.marca}
+                </Text>
+                <Text style={{ width: 120, fontSize: 17, fontWeight: 'bold', color: 'black' }}>
+                  {produto.unidmedida}
+                </Text>
+                <Text style={{ width: 80, fontSize: 17, fontWeight: 'bold', color: '#669bbc' }}>
+                  {produto.preco}
+                </Text>
+                <Text style={{ width: 20, fontSize: 17, fontWeight: 'bold', color: 'black' }}>
+                  {produto.quantidade}
+                </Text>
+                <TouchableOpacity
+                  title='Adicionar'
+                  onPress={() => adicionarProduto(produto)}
+                >
+                  <Entypo name="circle-with-plus" size={30} color="#FFF" style={estilo.positivo} />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  title='Subtrair'
+                  onPress={() => subtrairProduto(produto)}
+                >
+                  <Entypo name="circle-with-minus" size={30} color="#FFF" style={estilo.negativo} />
+                </TouchableOpacity>
               </TouchableOpacity>
-              <TouchableOpacity
-                title='Subtrair'
-                onPress={() => subtrairProduto(produto)}
-              >
-                <Entypo name="circle-with-minus" size={30} color="#FFF" style={estilo.negativo} />
-              </TouchableOpacity>
-            </TouchableOpacity>
-          ))}
-        </ScrollView>
-       </View>
+            ))}
+          </ScrollView>
+        </View>
       </View>
       <TouchableOpacity
         title='Escanear produto'
@@ -254,7 +253,7 @@ export default function ComprasRealTime({ navigation }) {
         </TouchableOpacity>
       </View>
 
-      <Text style={estilo.TextoNormais}>Meu Valor(R$):</Text>
+      <Text style={estilo.TextoNormais}>Valor Disponível(R$):</Text>
       <TextInput
         placeholder="Digite o valor que será gasto"
         keyboardType='numeric'
@@ -264,10 +263,6 @@ export default function ComprasRealTime({ navigation }) {
         editable={!textInputDesabilitado}
       />
 
-      <TouchableOpacity title='Confirmação' onPress={Desabilitar} disabled={botaoDesabilitado}>
-        <AntDesign name="checkcircle" size={40} color='#000' style={botaoDesabilitado ? estilo.positivo1Desabilitado : estilo.positivo1} />
-      </TouchableOpacity>
-
       <Text style={estilo.TextoNormais1}>Total em Produtos(R$):</Text>
       <TextInput
         placeholder="Valor total dos produtos"
@@ -276,29 +271,31 @@ export default function ComprasRealTime({ navigation }) {
         value={totalProdutos}
       />
 
-      <Text style={{ color: 'white', 
-      fontWeight: 'bold', 
-      fontSize: 20, 
-      marginLeft: 10, 
-      top: -15, 
-      backgroundColor: trocoBackgroundColor, 
-      borderRadius: 5,
-      width: 120, 
-      textAlign: 'center' }}>Troco(R$): {diferenca}</Text>
+      <Text style={{
+        color: 'white',
+        fontWeight: 'bold',
+        fontSize: 20,
+        marginLeft: 10,
+        top: -15,
+        backgroundColor: trocoBackgroundColor,
+        borderRadius: 5,
+        width: 120,
+        textAlign: 'center'
+      }}>Troco(R$): {diferenca}</Text>
 
       <View style={{ flexDirection: 'row' }}>
         <TouchableOpacity title='Lista' style={estilo.botao}
-         onPress={() => {
-          // Passe as informações de data para a tela Historico
-          navigation.navigate('Historico', {
-            currentDate,
-            totalProdutos,
-            ValorPosto: botaoDesabilitado ? ' ' : ValorPosto,
-            diferenca,
-            initialTime,
-            finalTime,
-          });
-        }}>
+          onPress={() => {
+            // Passe as informações de data para a tela Historico
+            navigation.navigate('CriacaoListas', {/*{
+              currentDate,
+              totalProdutos,
+              ValorPosto: botaoDesabilitado ? ' ' : ValorPosto,
+              diferenca,
+              initialTime,
+              finalTime,
+            */ })
+          }}>
           <Text style={estilo.normal_words}>Lista</Text>
         </TouchableOpacity>
 
@@ -310,16 +307,14 @@ export default function ComprasRealTime({ navigation }) {
   );
 }
 
-
 const estilo = StyleSheet.create({
   scrollView: {
-    //flexGrow: 1,
-    maxHeight: '100%', // Ajuste o valor conforme necessário
+    maxHeight: '100%',
   },
   boldText: {
     fontWeight: 'bold',
     fontSize: 20,
-    color:'black',
+    color: 'black',
   },
   boldText1: {
     fontWeight: 'bold',
@@ -327,7 +322,7 @@ const estilo = StyleSheet.create({
     color: '#669bbc',
   },
   scrollViewContent: {
-    paddingBottom: 300, 
+    paddingBottom: 300,
   },
   item: {
     flexDirection: 'row',
@@ -355,7 +350,7 @@ const estilo = StyleSheet.create({
     backgroundColor: '#38B000',
     borderRadius: 60,
     bottom: 20,
-    left: 250, 
+    left: 250,
   },
   negativo: {
     backgroundColor: '#6A040F',
@@ -370,7 +365,7 @@ const estilo = StyleSheet.create({
     margin: 5,
     padding: 10,
     borderColor: 'gray',
-    top: 5,
+    top: -14,
     right: -5,
     width: 250,
     color: 'black',
@@ -382,7 +377,7 @@ const estilo = StyleSheet.create({
     color: 'black',
     margin: 5,
     padding: 10,
-    top: -25,
+    top: -20,
     width: 250,
     right: -120,
     marginLeft: -110,
@@ -397,16 +392,10 @@ const estilo = StyleSheet.create({
     top: -45,
     left: 280,
   },
-  positivo1Desabilitado: {
-    backgroundColor: '#999',
-    borderRadius: 60,
-    top: -45,
-    left: 280,
-  },
   TextoNormais: {
     fontWeight: 'bold',
     fontSize: 17,
-    top: 0,
+    top: -13,
     marginLeft: 10,
     textAlignVertical: 'center',
     textTransform: 'capitalize',
@@ -414,7 +403,7 @@ const estilo = StyleSheet.create({
   TextoNormais1: {
     fontWeight: 'bold',
     fontSize: 17,
-    top: -30,
+    top: -17,
     left: 10,
     textAlignVertical: 'center',
     textTransform: 'capitalize',

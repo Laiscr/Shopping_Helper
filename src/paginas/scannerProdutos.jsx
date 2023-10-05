@@ -5,7 +5,7 @@ import { getDatabase, ref, onValue } from 'firebase/database';
 import { firebaseConfig } from '../services/firebaseConfig';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { ToastAndroid } from 'react-native';
-import { useRoute } from '@react-navigation/native';
+//import { useRoute } from '@react-navigation/native';
 
 initializeApp(firebaseConfig);
 
@@ -96,10 +96,17 @@ export default function ScannerProdutos({ navigation }) {
     setToScan(false);
   }
 
-  // Navegar para a tela ComprasRealTime com os produtos
+  // Navegar para a tela ComprasRealTime
   function navigateToComprasRealTime() {
-    const preco = parseFloat(produtoData.preco);
-    navigation.navigate('ComprasRealTime', { preco, produtos });
+    if (produtos.length === 0) {
+      Alert.alert(
+        'Nenhum produto adicionado',
+        'É necessário adicionar pelo menos um produto para ir para a tela de Compras.'
+      );
+    } else {
+      const preco = parseFloat(produtoData.preco);
+      navigation.navigate('ComprasRealTime', { preco, produtos });
+    }
   }
 
   if (toScan && hasPermission)
@@ -112,13 +119,6 @@ export default function ScannerProdutos({ navigation }) {
 
   return (
     <View style={estilo.container}>
-{/*{isVisible && (
-        <TouchableOpacity title='Cancelar Leitura'
-          style={estilo.botaoEspecial}>
-          <Text style={estilo.textoEspecial}>Cancelar Leitura</Text>
-        </TouchableOpacity>
-      )}*/}
-
       <View>
         <Text style={estilo.TextosNormais}>Produto:</Text>
       </View>
@@ -140,7 +140,7 @@ export default function ScannerProdutos({ navigation }) {
       </TextInput>
 
       <View>
-        <Text style={estilo.TextosNormais}>Preço:</Text>
+        <Text style={estilo.TextosNormais}>Preço(R$):</Text>
       </View>
       <TextInput
         placeholder="Preço do produto"

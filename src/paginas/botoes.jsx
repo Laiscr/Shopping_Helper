@@ -166,6 +166,7 @@ const estilo = StyleSheet.create({
   },
   botoesContainer: {
    flexDirection: 'row',
+   marginLeft: 20,
   },
   normal_words: {
     fontSize: 20,
@@ -196,7 +197,7 @@ const estilo = StyleSheet.create({
 },
   modal: {
     width: '80%',
-    height: 300,
+    height: 250,
     borderRadius: 25,
     backgroundColor: 'white',
     marginLeft: 'auto',
@@ -212,7 +213,7 @@ const estilo = StyleSheet.create({
     borderRadius: 15,
     backgroundColor: '#E01E37',
     right: -10,
-    bottom: 10,
+    bottom: 65,
     elevation: 2,
     height: 50,
     width: 100,
@@ -230,7 +231,7 @@ const estilo = StyleSheet.create({
     borderRadius: 15,
     backgroundColor: '#E01E37',
     left: 175,
-    bottom: -60,
+    bottom: -5,
     elevation: 2,
     height: 50,
     width: 100,

@@ -14,7 +14,7 @@ export default function Login({ navigation }) {
   const handlePress = () => {
     // Julio Cesar Inicio
 
-    const app = initializeApp(firebaseConfig)
+    {/*const app = initializeApp(firebaseConfig)
     
     const db = getDatabase(app)
 
@@ -22,7 +22,7 @@ export default function Login({ navigation }) {
 
     onValue(teste, (snapshot) => {
       Alert.alert(snapshot.val())
-    })
+    })*/}
 
     // Julio Cesar Fim
     // Lais carlos gordinha
@@ -44,10 +44,6 @@ export default function Login({ navigation }) {
 
   return (
     <View style={estilo.container}>
-      <StatusBar
-        backgroundColor="#FF4747"  // Define a cor de fundo da barra de status
-        barStyle="light-content"    // Define o estilo do texto na barra de status (light ou dark)
-      />
       <Modal
         visible={modalVisivel}
         animationType="fade"
@@ -112,7 +108,7 @@ export default function Login({ navigation }) {
           {mostrarAlerta && (
             <Text style={estilo.alerta}>Preencha todos os campos antes de acessar.</Text>
           )}
-
+         
           <TouchableOpacity
             title='Acessar'
             style={estilo.botao3}
@@ -157,7 +153,7 @@ const estilo = StyleSheet.create({
   titulo: {
     fontSize: 20,
     color: 'black',
-    textAlign: 'center',
+    textAlign: 'left',
     fontWeight: 'bold',
     padding: 12,
     alignContent: 'center',
@@ -167,7 +163,7 @@ const estilo = StyleSheet.create({
     fontSize: 17,
     color: 'black',
     margin: 4,
-    textAlign: 'center',
+    textAlign: 'left',
     alignContent: 'center',
     justifyContent: 'center',
   },
@@ -272,7 +268,7 @@ const estilo = StyleSheet.create({
   },
   modal: {
     width: '80%',
-    height: 300,
+    height: 250,
     borderRadius: 25,
     backgroundColor: 'white',
     marginLeft: 'auto',
@@ -289,7 +285,7 @@ const estilo = StyleSheet.create({
     borderRadius: 15,
     backgroundColor: '#E01E37',
     right: -10,
-    bottom: 10,
+    bottom: 60,
     elevation: 2,
     height: 50,
     width: 100,
@@ -307,7 +303,7 @@ const estilo = StyleSheet.create({
     borderRadius: 15,
     backgroundColor: '#E01E37',
     left: 175,
-    bottom: -60,
+    bottom: -10,
     elevation: 2,
     height: 50,
     width: 100,
@@ -325,7 +321,7 @@ const estilo = StyleSheet.create({
   },
   alerta: {
     fontSize: 20,
-    color: 'white',
+    color: 'red',
     fontWeight: 'bold',
     margin: 10,
   },

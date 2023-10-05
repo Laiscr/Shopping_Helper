@@ -111,12 +111,11 @@ export default function Historico({ navigation }) {
        onPress={HistoricoMostrar}
        style={estilo.botaoHistorico}>
        <Text style={{fontSize:20, fontWeight: 'bold', color: 'white', margin:5}}>Histórico</Text>
-       <Text style={{fontSize:20, fontWeight: 'bold', color: 'white', margin: 5}}>Data:</Text>
-       <Text style={{textAlign: 'center', fontSize:20, fontWeight: 'bold', color: 'white'}}>{currentDate?.split(' ')[0]}</Text>
+       <Text style={{fontSize:20, fontWeight: 'bold', color: 'white', margin: 5}}>Data: {currentDate?.split(' ')[0]}</Text>
        </TouchableOpacity>
 
        <TouchableOpacity title='Lixo'>
-            <Feather name="trash-2" size={50} color="#000" style={{top: -200, left: 100}}/>
+            <Feather name="trash-2" size={50} color="#000" style={{top: -200, left: 70}}/>
         </TouchableOpacity>
         </View>
 
@@ -225,11 +224,11 @@ const estilo = StyleSheet.create ({
     },
     botaoHistorico: {
         top: -200, 
-        right: 90,
+        right: 60,
         backgroundColor: 'black',
         borderRadius: 10,
-        width: 120,
-        height: 100
+        width: 180,
+        height: 80
     },
     image: {
         width: 340,

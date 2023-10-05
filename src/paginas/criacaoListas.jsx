@@ -1,60 +1,63 @@
 import React, { useState, useRef } from 'react';
 import { StyleSheet, Text, TextInput, View, FlatList, TouchableOpacity } from 'react-native';
+import { useAppContext } from './AppContext';
 
 export default function CriacaoListas({ navigation }) {
-  const [inputText, setInputText] = useState(''); // Estado para armazenar o texto do input
-  const [checklist, setChecklist] = useState([]); // Estado para armazenar a lista de itens do checklist
-  const [anotacoes, setAnotacoes] = useState(''); // Estado para armazenar as anotações
-  const [valor, setValor] = useState(''); // Estado para armazenar o valor inserido
-  const [mensagem, setMensagem] = useState(''); // Estado para armazenar a mensagem temporária
-  const [valorConfirmado, setValorConfirmado] = useState(false); // Estado para controlar a confirmação do valor
-  const [tituloConfirmado, setTituloConfirmado] = useState(false); // Estado para controlar a confirmação do título
-  const [titulo, setTitulo] = useState(''); // Estado para armazenar o título
+  const [inputText, setInputText] = useState('');
+  const [checklist, setChecklist] = useState([]);
+  const [anotacoes, setAnotacoes] = useState('');
+  const [valor, setValor] = useState('');
+  const [mensagem, setMensagem] = useState('');
+  const [valorConfirmado, setValorConfirmado] = useState(false);
+  const [tituloConfirmado, setTituloConfirmado] = useState(false);
+  const [titulo, setTitulo] = useState('');
 
-  // Ref para o TextInput de valor
+  const [state, dispatch] = useAppContext();
+
+  // Função para salvar as informações no contexto
+  const salvarInformacoes = () => {
+    dispatch({
+      type: 'SALVAR_INFORMACOES',
+      payload: {
+        inputText,
+        // outras informações que você deseja salvar
+      },
+    });
+  };
+
   const valorInputRef = useRef(null);
 
-  // Função para adicionar um item à lista quando o usuário pressiona "Enter"
   const adicionarItem = () => {
     if (inputText.trim() !== '') {
       setChecklist([...checklist, { texto: inputText, concluido: false }]);
-      setInputText(''); // Limpa o input
+      setInputText('');
     }
   };
 
-  // Função para marcar/desmarcar um item como concluído
   const toggleConcluido = (index) => {
     const novaLista = [...checklist];
     novaLista[index].concluido = !novaLista[index].concluido;
     setChecklist(novaLista);
   };
 
-  // Função para confirmar anotações e focar no TextInput de valor
   const confirmarAnotacoes = () => {
-    // Aqui, você pode usar o valor de 'anotacoes' como necessário
-    // Remova o alert que exibia as anotações
-    valorInputRef.current.focus(); // Foca no TextInput de valor
+    valorInputRef.current.focus();
   };
 
-  // Função para confirmar o valor inserido
   const confirmarValor = () => {
-    // Aqui, você pode usar o valor de 'valor' como necessário
-    // Por enquanto, vamos definir uma mensagem temporária
-    setValorConfirmado(true); // Define o valor como confirmado
+    setValorConfirmado(true);
     setMensagem(`Atenção: Valor inserido - ${valor}`);
   };
 
-  // Função para confirmar o título
   const confirmarTitulo = () => {
     if (titulo.trim() !== '') {
-      setTituloConfirmado(true); // Define o título como confirmado
+      setTituloConfirmado(true);
     }
   };
 
   return (
     <View style={estilo.container}>
       <View style={estilo.tituloContainer}>
-        {/* Título */}
         {!tituloConfirmado ? (
           <TextInput
             style={estilo.tituloInput}
@@ -72,14 +75,13 @@ export default function CriacaoListas({ navigation }) {
         )}
       </View>
       <View style={estilo.checklist}>
-        {/* Seção da Checklist */}
         <Text style={estilo.titulo}>Checklist de Produtos</Text>
         <TextInput
           style={estilo.input}
           placeholder="Adicionar item..."
           value={inputText}
           onChangeText={(text) => setInputText(text)}
-          onSubmitEditing={adicionarItem} // Chama a função ao pressionar "Enter"
+          onSubmitEditing={adicionarItem}
         />
         <FlatList
           data={checklist}
@@ -102,7 +104,6 @@ export default function CriacaoListas({ navigation }) {
         />
       </View>
       <View style={estilo.anotacoes}>
-        {/* Seção das Anotações */}
         <Text style={estilo.titulo}>Anotações adicionais</Text>
         <TextInput
           style={estilo.caixa_texto}
@@ -115,10 +116,10 @@ export default function CriacaoListas({ navigation }) {
         <TouchableOpacity onPress={confirmarAnotacoes} style={estilo.button}>
           <Text style={estilo.buttonText}>Confirmar Anotações</Text>
         </TouchableOpacity>
-        {/* Valor inserido */}
         <View style={estilo.valorContainer}>
+          <Text style={estilo.valorTexto}>Valor a ser gasto (R$):</Text>
           <TextInput
-            ref={valorInputRef} // Referência para o TextInput de valor
+            ref={valorInputRef}
             style={[
               estilo.input,
               estilo.valorInput,
@@ -127,17 +128,16 @@ export default function CriacaoListas({ navigation }) {
             placeholder="Inserir Valor"
             value={valor}
             onChangeText={(text) => !valorConfirmado && setValor(text)}
-            editable={!valorConfirmado} // Desabilita a edição após a confirmação
+            editable={!valorConfirmado}
           />
           {!valorConfirmado && (
-            <TouchableOpacity onPress={confirmarValor} style={estilo.button}>
-              <Text style={estilo.buttonText}>Confirmar Valor</Text>
+            <TouchableOpacity onPress={confirmarValor} style={estilo.button1}>
+              <Text style={estilo.buttonText}>OK</Text>
             </TouchableOpacity>
           )}
         </View>
-        {/* Botão para ir para a tela ComprasRealTime */}
         <TouchableOpacity onPress={() => navigation.navigate('ScannerProdutos')} style={estilo.button}>
-          <Text style={estilo.buttonText}>Começar Compras</Text>
+          <Text style={estilo.buttonText}>Compras</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -178,11 +178,11 @@ const estilo = StyleSheet.create({
     textAlign: 'center',
   },
   checklist: {
-    flex: 1, // 66.67% da altura
+    flex: 1,
     padding: 16,
   },
   anotacoes: {
-    flex: 1, // 33.33% da altura
+    flex: 1,
     padding: 16,
   },
   titulo: {
@@ -212,7 +212,7 @@ const estilo = StyleSheet.create({
   },
   itemConcluido: {
     textDecorationLine: 'line-through',
-    color: 'gray',
+    color: 'black',
   },
   valorContainer: {
     flexDirection: 'row',
@@ -220,9 +220,11 @@ const estilo = StyleSheet.create({
   },
   valorInput: {
     flex: 1,
+    color: 'black',
+    fontSize: 20,
   },
   valorConfirmado: {
-    backgroundColor: '#76C893', // Estilize a cor conforme necessário
+    backgroundColor: '#76C893',
   },
   button: {
     borderRadius: 10,
@@ -233,8 +235,25 @@ const estilo = StyleSheet.create({
     backgroundColor: '#6A040F',
     alignContent: 'center',
     elevation: 2,
-    height: 40,
     width: 170,
+    zIndex: 9,
+    shadowColor: 'black',
+    shadowOpacity: 0.2,
+    shadowOffset: {
+      height: 3,
+      width: 1,
+    },
+  },
+  button1: {
+    borderRadius: 10,
+    height: 40,
+    top: -10,
+    margin: 5,
+    padding: 9,
+    backgroundColor: '#6A040F',
+    alignContent: 'center',
+    elevation: 2,
+    width: 50,
     zIndex: 9,
     shadowColor: 'black',
     shadowOpacity: 0.2,
@@ -247,8 +266,9 @@ const estilo = StyleSheet.create({
     textAlign: 'center',
     color: 'white',
     fontSize: 17,
-    fontStyle: ('italic'),
+    fontStyle: 'italic',
   },
+  
   caixa_texto: {
     height: 90,
     top: -10,
@@ -263,5 +283,12 @@ const estilo = StyleSheet.create({
     justifyContent: 'center',
     borderColor: 'gray',
     borderWidth: 0.5,
+  },
+  valorTexto: {
+    fontSize: 17,
+    marginRight: 10,
+    textAlign: 'center',
+    top: -10,
+    fontWeight: 'bold',
   },
 });
