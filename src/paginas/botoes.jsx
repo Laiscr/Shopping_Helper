@@ -163,6 +163,7 @@ const estilo = StyleSheet.create({
    backgroundColor: '#FDF0D5',
    alignItems: 'center',
    justifyContent: 'flex-start',
+   marginTop: 25,
   },
   botoesContainer: {
    flexDirection: 'row',

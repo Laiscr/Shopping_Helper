@@ -17,13 +17,13 @@ export default function App() {
     <NavigationContainer>
       <AppProvider>
         <Stack.Navigator initialRouteName="Login">
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Cadastro" component={Cadastro} />
-          <Stack.Screen name="Botoes" component={Botoes} />
-          <Stack.Screen name="ScannerProdutos" component={ScannerProdutos} />
-          <Stack.Screen name="ComprasRealTime" component={ComprasRealTime} />
-          <Stack.Screen name="Historico" component={Historico} />
-          <Stack.Screen name="CriacaoListas" component={CriacaoListas} />
+          <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
+          <Stack.Screen name="Cadastro" component={Cadastro} options={{ headerShown: false }}/>
+          <Stack.Screen name="Botoes" component={Botoes} options={{ headerShown: false }}/>
+          <Stack.Screen name="ScannerProdutos" component={ScannerProdutos} options={{ headerShown: false }}/>
+          <Stack.Screen name="ComprasRealTime" component={ComprasRealTime} options={{ headerShown: false }}/>
+          <Stack.Screen name="Historico" component={Historico} options={{ headerShown: false }}/>
+          <Stack.Screen name="CriacaoListas" component={CriacaoListas} options={{ headerShown: false }}/>
         </Stack.Navigator>
       </AppProvider>
     </NavigationContainer>

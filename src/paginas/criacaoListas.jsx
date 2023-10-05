@@ -147,6 +147,7 @@ export default function CriacaoListas({ navigation }) {
 const estilo = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: 25,
     flexDirection: 'column',
     backgroundColor: '#FDF0D5',
   },

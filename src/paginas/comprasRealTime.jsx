@@ -344,7 +344,7 @@ const estilo = StyleSheet.create({
     backgroundColor: '#FDF0D5',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
-    paddingTop: 120,
+    paddingTop: 130,
   },
   positivo: {
     backgroundColor: '#38B000',
