@@ -30,8 +30,10 @@ A partir dele, aprendi a:
 - Organizar melhor meu código
 - Pensar no usuário final e na utilidade da aplicação
 
+Acesse o projeto:
+[🔗 Clique aqui para abrir o Shopping Helper no GitHub Pages](https://laiscr.github.io/Shopping_Helper/)
+
 Prévia do projeto:
-## 📷 Prévia da interface
 
 Tela Inicial
 ![Tela Inicial](assets/IMG-20250607-WA0001.jpg)
@@ -43,4 +45,3 @@ Tela de Inserção de Produto
 
 Alerta de Produto Não Escaneado
 ![Lista de Compras](assets/IMG-20250607-WA0006.jpg)
-
