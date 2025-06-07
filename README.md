@@ -29,3 +29,18 @@ A partir dele, aprendi a:
 - Criar interfaces interativas com eventos
 - Organizar melhor meu código
 - Pensar no usuário final e na utilidade da aplicação
+
+Prévia do projeto:
+## 📷 Prévia da interface
+
+Tela Inicial
+![Tela Inicial](assets/IMG-20250607-WA0001.jpg)
+
+
+Tela de Inserção de Produto
+![Inserir Produto](assets/IMG-20250607-WA0004.jpg)
+
+
+Alerta de Produto Não Escaneado
+![Lista de Compras](assets/IMG-20250607-WA0006.jpg)
+
